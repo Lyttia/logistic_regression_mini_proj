@@ -3,16 +3,16 @@ title: "Logistic Regression Mini Proj"
 output: html_notebook
 ---
 
-## Exercise: logistic regression
-## ───────────────────────────────────
+# Exercise: logistic regression
 
-##   Use the NH11 data set that we loaded earlier.
 
-##   Note that the data is not perfectly clean and ready to be modeled. You will need to clean up at least some of the variables before fitting the model.
+**Use the NH11 data set that we loaded earlier.**
 
-##   1. Use glm to conduct a logistic regression to predict ever worked (everwrk) using age (age_p) and marital status (r_maritl).
+*Note that the data is not perfectly clean and ready to be modeled. You will need to clean up at least some of the variables before fitting the model.*
 
-```{r}
+**1. Use glm to conduct a logistic regression to predict ever worked (everwrk) using age (age_p) and marital status (r_maritl).**
+
+```{r echo=TRUE}
 NH11 <- readRDS("NatHealth2011.rds")
 labs <- attributes(NH11)$labels
 
@@ -31,12 +31,14 @@ mod.wk.age.mar <- glm(everwrk ~ age_p + r_maritl, data = NH11,
 summary(mod.wk.age.mar)
 ```
 
+*In modeling "ever worked", it seems that "age_p", "widowed", "divorced", "never married" are the most significant indicators, followed by "living with partner". According to the summary generated coefficients, "age_p", "divorced", "separated", and "living with partner", were negatively associated with ever worked, meaning that higher values in these variables contribute to a lower probibility of ever working.* 
+
 ##   2. Predict the probability of working for each level of marital status.
 
-```{r}
+```{r echo=TRUE}
 install.packages("effects")
 library(effects)
 data.frame(Effect("r_maritl", mod.wk.age.mar))
 plot(allEffects(mod.wk.age.mar))
 ```
-
+*These plots confirm my interpretation from the coefficient summary above. I would like more clarification on what is meant by "everwork". The data frame effect table fit column indicates that a widow has the highest probability of "ever worked" at 19%, while a divorcee has the lowest probability  of "ever worked" at 5%.*
